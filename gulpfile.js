@@ -6,6 +6,7 @@ var rename       = require('gulp-rename');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
 var minifyCss    = require('gulp-minify-css');
+var connect	 = require('gulp-connect');
 
 var del          = require('del');
 var stylish      = require('jshint-stylish');
@@ -15,6 +16,10 @@ gulp.task('less-dev', function() {
     .pipe(less())
     .pipe(gulp.dest('gen'));
 });
+
+gulp.task('webserver',function(){
+	connect.server();
+})
 
 gulp.task('less-prod', function() {
   return gulp.src('src/toastr.less')
@@ -75,6 +80,6 @@ gulp.task('clean', function(cb) {
   del(['dist', 'gen'], cb);
 });
 
-gulp.task('default', ['less-dev', 'scripts-dev', 'template', 'watch']);
+gulp.task('default', ['less-dev', 'scripts-dev', 'template', 'watch','webserver']);
 gulp.task('production', ['less-prod', 'scripts-prod', 'scripts-prod-tpls']);
 gulp.task('travis', ['less-dev', 'scripts-dev', 'template']);

@@ -1,4 +1,6 @@
 gen/
 node_modules/
 playground/
+bower_
 .idea/
+bower_components
