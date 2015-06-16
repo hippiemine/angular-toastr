@@ -202,7 +202,13 @@
           tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
           titleClass: options.titleClass,
-          toastClass: options.toastClass
+          toastClass: options.toastClass,
+          onClick: options.onClick,
+          btnYesClick: options.btnYesClick,
+          btnNoClick: options.btnNoClick,
+          showBtnYesNo: options.showBtnYesNo,
+          btnYesText: options.btnYesText,
+          btnNoText: options.btnNoText
         };
 
         if (options.closeButton) {
@@ -289,6 +295,12 @@
       newestOnTop: true,
       onHidden: null,
       onShown: null,
+      onClick: null,
+      showBtnYesNo: false,
+      btnYesClick: null,
+      btnNoClick: null,
+      btnYesText: '确定',
+      btnNoText: '取消',
       positionClass: 'toast-top-right',
       preventDuplicates: false,
       preventOpenDuplicates: false,
@@ -405,6 +417,10 @@
       scope.titleClass = scope.options.titleClass;
       scope.messageClass = scope.options.messageClass;
       scope.progressBar = scope.options.progressBar;
+      scope.showBtnYesNo = scope.options.showBtnYesNo;
+      scope.btnYesText = scope.options.btnYesText;
+      scope.btnNoText = scope.options.btnNoText;
+      console.log(scope.showBtnYesNo);
 
       if (wantsCloseButton()) {
         var button = angular.element(scope.options.closeHtml),
@@ -434,8 +450,28 @@
       scope.tapToast = function () {
         if (scope.options.tapToDismiss) {
           scope.close(true);
+        }else{
+          if(typeof scope.options.onClick === 'function'){
+              scope.options.onClick();
+            }
         }
       };
+
+      scope.showBtnYesNo=true;
+
+      scope.btnYesClick = function ($event) {
+        if (angular.isFunction(scope.options.btnYesClick)) {
+            scope.options.btnYesClick();
+            $event.stopPropagation();
+        }
+      }
+
+      scope.btnNoClick = function ($event) {
+        if (angular.isFunction(scope.options.btnNoClick)) {
+          scope.options.btnNoClick();
+          $event.stopPropagation();
+        }
+      }
 
       scope.close = function (wasClicked) {
         toastr.remove(scope.toastId, wasClicked);
@@ -469,5 +505,6 @@
   }
 }());
 
-angular.module("toastr").run(["$templateCache", function($templateCache) {$templateCache.put("directives/progressbar/progressbar.html","<div class=\"toast-progress\"></div>\n");
-$templateCache.put("directives/toast/toast.html","<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\n  <div ng-switch on=\"allowHtml\">\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\">{{title}}</div>\n    <div ng-switch-default class=\"{{messageClass}}\">{{message}}</div>\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\n  </div>\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\n</div>\n");}]);
+angular.module("toastr").run(["$templateCache", function($templateCache) {$templateCache.put("directives/progressbar/progressbar.html","<div class=\"toast-progress\"></div>\r\n");
+$templateCache.put("directives/toast/default.html","<div ng-click=\\ \"tapToast()\\\" class=\\ \"{{toastClass}} {{toastType}}\\\">\\n\r\n    <div ng-switch on=\\ \"allowHtml\\\">\\n\r\n        <div ng-switch-default ng-if=\\ \"title\\\" class=\\ \"{{titleClass}}\\\">{{title}}</div>\\n\r\n        <div ng-switch-default class=\\ \"{{messageClass}}\\\">{{message}}</div>\\n\r\n        <div ng-switch-when=\\ \"true\\\" ng-if=\\ \"title\\\" class=\\ \"{{titleClass}}\\\" ng-bind-html=\\ \"title\\\"></div>\\n\r\n        <div ng-switch-when=\\ \"true\\\" class=\\ \"{{messageClass}}\\\" ng-bind-html=\\ \"message\\\"></div>\\n </div>\\n\r\n    <progress-bar ng-if=\\ \"progressBar\\\"></progress-bar>\\n</div>\r\n");
+$templateCache.put("directives/toast/toast.html","<div class=\"{{toastClass}} {{toastType}}\" ng-click=\"tapToast()\">\r\n  <div ng-switch on=\"allowHtml\">\r\n    <div ng-switch-default ng-if=\"title\" class=\"{{titleClass}}\">{{title}}</div>\r\n    <div ng-switch-default class=\"{{messageClass}}\">{{message}}</div>\r\n    <div ng-switch-when=\"true\" ng-if=\"title\" class=\"{{titleClass}}\" ng-bind-html=\"title\"></div>\r\n    <div ng-switch-when=\"true\" class=\"{{messageClass}}\" ng-bind-html=\"message\"></div>\r\n  </div>\r\n  <div class=\"toast-btn-group\" ng-show=\"showBtnYesNo\">\r\n  	<div class=\"toast-btn-box\">\r\n  		<input type=\"button\" value=\"{{btnYesText}}\" class=\"toast-btn\" ng-click=\"btnYesClick($event)\">\r\n  	</div>\r\n  	<div class=\"toast-btn-box\">\r\n  		<input type=\"button\" value=\"{{btnNoText}}\" class=\"toast-btn\" ng-click=\"btnNoClick($event)\">\r\n  	</div>\r\n  </div>\r\n  <progress-bar ng-if=\"progressBar\"></progress-bar>\r\n</div>\r\n");}]);

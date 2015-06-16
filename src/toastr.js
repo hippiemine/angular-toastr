@@ -202,7 +202,13 @@
           tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
           titleClass: options.titleClass,
-          toastClass: options.toastClass
+          toastClass: options.toastClass,
+          onClick: options.onClick,
+          btnYesClick: options.btnYesClick,
+          btnNoClick: options.btnNoClick,
+          showBtnYesNo: options.showBtnYesNo,
+          btnYesText: options.btnYesText,
+          btnNoText: options.btnNoText
         };
 
         if (options.closeButton) {

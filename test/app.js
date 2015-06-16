@@ -65,8 +65,8 @@ angular.module('app', ['toastr', 'ngAnimate'])
       autoDismiss: false,
       position: 'toast-top-right',
       type: 'success',
-      timeout: '5000',
-      extendedTimeout: '1000',
+      timeout: '0',
+      extendedTimeout: '0',
       html: false,
       closeButton: false,
       tapToDismiss: true,
@@ -75,7 +75,8 @@ angular.module('app', ['toastr', 'ngAnimate'])
       newestOnTop: true,
       maxOpened: 0,
       preventDuplicates: false,
-      preventOpenDuplicates: false
+      preventOpenDuplicates: false,
+      showBtnYesNo: true,
     };
 
     $scope.$watchCollection('options', function(newValue) {
@@ -92,7 +93,17 @@ angular.module('app', ['toastr', 'ngAnimate'])
       toastrConfig.maxOpened = newValue.maxOpened;
       toastrConfig.preventDuplicates = newValue.preventDuplicates;
       toastrConfig.preventOpenDuplicates = newValue.preventOpenDuplicates;
+      toastrConfig.showBtnYesNo = newValue.showBtnYesNo;
+      console.log(newValue.showBtnYesNo);
     });
+
+    toastrConfig.btnYesClick = function (){
+      alert('yes');
+    }
+
+    toastrConfig.btnNoClick = function (){
+      alert('no');
+    }
 
     $scope.clearLastToast = function() {
       var toast = openedToasts.pop();

@@ -20,6 +20,7 @@
 @green: #51A351;
 @red: #BD362F;
 @blue: #2F96B4;
+@blue-light: #3399FF;
 @orange: #F89406;
 
 // Styles
@@ -206,6 +207,28 @@ button.toast-close-button {
   height: 4px;
   background-color: @black;
   opacity: 0.4;
+}
+
+.toast-btn-group{
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.toast-btn-box:first-child {
+  text-align: left;
+}
+.toast-btn-box:last-child {
+  text-align: right;
+}
+.toast-btn-box{
+  flex:1; 
+}
+.toast-btn{
+  border:none;
+  border-radius:6px;
+  padding: 3px 18px;
+  background-color: @blue-light;
+  color: white;
 }
 
 /*Animations*/

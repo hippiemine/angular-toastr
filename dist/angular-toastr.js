@@ -202,7 +202,13 @@
           tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
           titleClass: options.titleClass,
-          toastClass: options.toastClass
+          toastClass: options.toastClass,
+          onClick: options.onClick,
+          btnYesClick: options.btnYesClick,
+          btnNoClick: options.btnNoClick,
+          showBtnYesNo: options.showBtnYesNo,
+          btnYesText: options.btnYesText,
+          btnNoText: options.btnNoText
         };
 
         if (options.closeButton) {
@@ -289,6 +295,12 @@
       newestOnTop: true,
       onHidden: null,
       onShown: null,
+      onClick: null,
+      showBtnYesNo: false,
+      btnYesClick: null,
+      btnNoClick: null,
+      btnYesText: '确定',
+      btnNoText: '取消',
       positionClass: 'toast-top-right',
       preventDuplicates: false,
       preventOpenDuplicates: false,
@@ -405,6 +417,10 @@
       scope.titleClass = scope.options.titleClass;
       scope.messageClass = scope.options.messageClass;
       scope.progressBar = scope.options.progressBar;
+      scope.showBtnYesNo = scope.options.showBtnYesNo;
+      scope.btnYesText = scope.options.btnYesText;
+      scope.btnNoText = scope.options.btnNoText;
+      console.log(scope.showBtnYesNo);
 
       if (wantsCloseButton()) {
         var button = angular.element(scope.options.closeHtml),
@@ -434,8 +450,28 @@
       scope.tapToast = function () {
         if (scope.options.tapToDismiss) {
           scope.close(true);
+        }else{
+          if(typeof scope.options.onClick === 'function'){
+              scope.options.onClick();
+            }
         }
       };
+
+      scope.showBtnYesNo=true;
+
+      scope.btnYesClick = function ($event) {
+        if (angular.isFunction(scope.options.btnYesClick)) {
+            scope.options.btnYesClick();
+            $event.stopPropagation();
+        }
+      }
+
+      scope.btnNoClick = function ($event) {
+        if (angular.isFunction(scope.options.btnNoClick)) {
+          scope.options.btnNoClick();
+          $event.stopPropagation();
+        }
+      }
 
       scope.close = function (wasClicked) {
         toastr.remove(scope.toastId, wasClicked);

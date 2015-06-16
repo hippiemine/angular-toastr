@@ -23,6 +23,10 @@
       scope.titleClass = scope.options.titleClass;
       scope.messageClass = scope.options.messageClass;
       scope.progressBar = scope.options.progressBar;
+      scope.showBtnYesNo = scope.options.showBtnYesNo;
+      scope.btnYesText = scope.options.btnYesText;
+      scope.btnNoText = scope.options.btnNoText;
+      console.log(scope.showBtnYesNo);
 
       if (wantsCloseButton()) {
         var button = angular.element(scope.options.closeHtml),
@@ -52,8 +56,28 @@
       scope.tapToast = function () {
         if (scope.options.tapToDismiss) {
           scope.close(true);
+        }else{
+          if(typeof scope.options.onClick === 'function'){
+              scope.options.onClick();
+            }
         }
       };
+
+      scope.showBtnYesNo=true;
+
+      scope.btnYesClick = function ($event) {
+        if (angular.isFunction(scope.options.btnYesClick)) {
+            scope.options.btnYesClick();
+            $event.stopPropagation();
+        }
+      }
+
+      scope.btnNoClick = function ($event) {
+        if (angular.isFunction(scope.options.btnNoClick)) {
+          scope.options.btnNoClick();
+          $event.stopPropagation();
+        }
+      }
 
       scope.close = function (wasClicked) {
         toastr.remove(scope.toastId, wasClicked);

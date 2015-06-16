@@ -156,6 +156,27 @@ button.toast-close-button {
   background-color: #000000;
   opacity: 0.4;
 }
+.toast-btn-group {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.toast-btn-box:first-child {
+  text-align: left;
+}
+.toast-btn-box:last-child {
+  text-align: right;
+}
+.toast-btn-box {
+  flex: 1;
+}
+.toast-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 3px 18px;
+  background-color: #3399ff;
+  color: white;
+}
 /*Animations*/
 .toast {
   opacity: 1 !important;
