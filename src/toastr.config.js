@@ -13,7 +13,8 @@
         error: 'toast-error',
         info: 'toast-info',
         success: 'toast-success',
-        warning: 'toast-warning'
+        warning: 'toast-warning',
+        alert: 'toast-alert'
       },
       maxOpened: 0,
       messageClass: 'toast-message',
@@ -37,6 +38,7 @@
         progressbar: 'directives/progressbar/progressbar.html'
       },
       timeOut: 5000,
+      timeOutFunction: null,
       titleClass: 'toast-title',
       toastClass: 'toast'
     });

@@ -26,7 +26,8 @@
       scope.showBtnYesNo = scope.options.showBtnYesNo;
       scope.btnYesText = scope.options.btnYesText;
       scope.btnNoText = scope.options.btnNoText;
-      console.log(scope.showBtnYesNo);
+      scope.timeOutFunction = scope.options.timeOutFunction;
+      console.log(scope.options.timeOutFunction);
 
       if (wantsCloseButton()) {
         var button = angular.element(scope.options.closeHtml),
@@ -63,12 +64,11 @@
         }
       };
 
-      scope.showBtnYesNo=true;
-
       scope.btnYesClick = function ($event) {
         if (angular.isFunction(scope.options.btnYesClick)) {
             scope.options.btnYesClick();
             $event.stopPropagation();
+            toastr.remove(scope.toastId, true);
         }
       }
 
@@ -76,6 +76,7 @@
         if (angular.isFunction(scope.options.btnNoClick)) {
           scope.options.btnNoClick();
           $event.stopPropagation();
+          toastr.remove(scope.toastId, true);
         }
       }
 
@@ -96,6 +97,9 @@
         return $interval(function() {
           toastCtrl.stopProgressBar();
           toastr.remove(scope.toastId);
+          if (typeof scope.timeOutFunction === 'function') {
+            scope.timeOutFunction();
+          }
         }, time, 1);
       }
 

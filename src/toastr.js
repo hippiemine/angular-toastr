@@ -22,7 +22,8 @@
       info: info,
       remove: remove,
       success: success,
-      warning: warning
+      warning: warning,
+      alert: alertInfo
     };
 
     return toast;
@@ -55,6 +56,11 @@
 
     function warning(message, title, optionsOverride) {
       var type = _getOptions().iconClasses.warning;
+      return _buildNotification(type, message, title, optionsOverride);
+    }
+
+    function alertInfo(message, title, optionsOverride) {
+      var type = _getOptions().iconClasses.alert;
       return _buildNotification(type, message, title, optionsOverride);
     }
 
@@ -201,6 +207,7 @@
           progressBar: options.progressBar,
           tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
+          timeOutFunction: options.timeOutFunction,
           titleClass: options.titleClass,
           toastClass: options.toastClass,
           onClick: options.onClick,

@@ -94,7 +94,6 @@ angular.module('app', ['toastr', 'ngAnimate'])
       toastrConfig.preventDuplicates = newValue.preventDuplicates;
       toastrConfig.preventOpenDuplicates = newValue.preventOpenDuplicates;
       toastrConfig.showBtnYesNo = newValue.showBtnYesNo;
-      console.log(newValue.showBtnYesNo);
     });
 
     toastrConfig.btnYesClick = function (){
@@ -103,6 +102,10 @@ angular.module('app', ['toastr', 'ngAnimate'])
 
     toastrConfig.btnNoClick = function (){
       alert('no');
+    }
+
+    toastrConfig.timeOutFunction = function () {
+      alert('time out');
     }
 
     $scope.clearLastToast = function() {
@@ -120,6 +123,12 @@ angular.module('app', ['toastr', 'ngAnimate'])
       }));
     };
 
+    $scope.openAlert = function() {
+      openedToasts.push(toastr.alert('I am totally custom!', 'Happy toast', {
+        iconClass: 'toast-alert'
+      }));
+    };
+
     $scope.openRandomToast = function() {
       var type = Math.floor(Math.random() * 4);
       var quote = Math.floor(Math.random() * 7);
@@ -129,6 +138,11 @@ angular.module('app', ['toastr', 'ngAnimate'])
     };
 
     $scope.openToast = function() {
-      openedToasts.push(toastr[$scope.options.type]($scope.toast.message, $scope.toast.title));
+      openedToasts.push(toastr[$scope.options.type]($scope.toast.message, $scope.toast.title,{btnYesClick:function(){
+        alert('123');
+        console.log(this);
+        toastr.remove(0);
+      }}));
+      //console.console.log(open);
     };
   });

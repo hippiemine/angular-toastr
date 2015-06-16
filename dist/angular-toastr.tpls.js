@@ -22,7 +22,8 @@
       info: info,
       remove: remove,
       success: success,
-      warning: warning
+      warning: warning,
+      alert: alertInfo
     };
 
     return toast;
@@ -55,6 +56,11 @@
 
     function warning(message, title, optionsOverride) {
       var type = _getOptions().iconClasses.warning;
+      return _buildNotification(type, message, title, optionsOverride);
+    }
+
+    function alertInfo(message, title, optionsOverride) {
+      var type = _getOptions().iconClasses.alert;
       return _buildNotification(type, message, title, optionsOverride);
     }
 
@@ -201,6 +207,7 @@
           progressBar: options.progressBar,
           tapToDismiss: options.tapToDismiss,
           timeOut: options.timeOut,
+          timeOutFunction: options.timeOutFunction,
           titleClass: options.titleClass,
           toastClass: options.toastClass,
           onClick: options.onClick,
@@ -288,7 +295,8 @@
         error: 'toast-error',
         info: 'toast-info',
         success: 'toast-success',
-        warning: 'toast-warning'
+        warning: 'toast-warning',
+        alert: 'toast-alert'
       },
       maxOpened: 0,
       messageClass: 'toast-message',
@@ -312,6 +320,7 @@
         progressbar: 'directives/progressbar/progressbar.html'
       },
       timeOut: 5000,
+      timeOutFunction: null,
       titleClass: 'toast-title',
       toastClass: 'toast'
     });
@@ -420,7 +429,8 @@
       scope.showBtnYesNo = scope.options.showBtnYesNo;
       scope.btnYesText = scope.options.btnYesText;
       scope.btnNoText = scope.options.btnNoText;
-      console.log(scope.showBtnYesNo);
+      scope.timeOutFunction = scope.options.timeOutFunction;
+      console.log(scope.options.timeOutFunction);
 
       if (wantsCloseButton()) {
         var button = angular.element(scope.options.closeHtml),
@@ -457,12 +467,11 @@
         }
       };
 
-      scope.showBtnYesNo=true;
-
       scope.btnYesClick = function ($event) {
         if (angular.isFunction(scope.options.btnYesClick)) {
             scope.options.btnYesClick();
             $event.stopPropagation();
+            toastr.remove(scope.toastId, true);
         }
       }
 
@@ -470,6 +479,7 @@
         if (angular.isFunction(scope.options.btnNoClick)) {
           scope.options.btnNoClick();
           $event.stopPropagation();
+          toastr.remove(scope.toastId, true);
         }
       }
 
@@ -490,6 +500,9 @@
         return $interval(function() {
           toastCtrl.stopProgressBar();
           toastr.remove(scope.toastId);
+          if (typeof scope.timeOutFunction === 'function') {
+            scope.timeOutFunction();
+          }
         }, time, 1);
       }
 
