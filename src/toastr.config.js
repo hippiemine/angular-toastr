@@ -14,7 +14,8 @@
         info: 'toast-info',
         success: 'toast-success',
         warning: 'toast-warning',
-        alert: 'toast-alert'
+        alert: 'toast-alert',
+        danger: 'toast-danger'
       },
       maxOpened: 0,
       messageClass: 'toast-message',

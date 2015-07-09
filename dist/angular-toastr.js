@@ -23,7 +23,8 @@
       remove: remove,
       success: success,
       warning: warning,
-      alert: alertInfo
+      alert: alertInfo,
+      danger: danger
     };
 
     return toast;
@@ -61,6 +62,11 @@
 
     function alertInfo(message, title, optionsOverride) {
       var type = _getOptions().iconClasses.alert;
+      return _buildNotification(type, message, title, optionsOverride);
+    }
+
+    function danger(message, title, optionsOverride) {
+      var type = _getOptions().iconClasses.danger;
       return _buildNotification(type, message, title, optionsOverride);
     }
 
@@ -296,7 +302,8 @@
         info: 'toast-info',
         success: 'toast-success',
         warning: 'toast-warning',
-        alert: 'toast-alert'
+        alert: 'toast-alert',
+        danger: 'toast-danger'
       },
       maxOpened: 0,
       messageClass: 'toast-message',
